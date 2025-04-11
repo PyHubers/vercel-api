@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Client Sender</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    button { padding: 10px; margin: 5px; }
+    pre { background: #f0f0f0; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Отправка запросов</h1>
+  
+  <button onclick="sendStatus()">GET Status</button>
+  <button onclick="sendExecute()">POST Execute</button>
+  
+  <h3>Ответ:</h3>
+  <pre id="response"></pre>
+
+  <script>
+    async function sendStatus() {
+      const response = await fetch('/api/status');
+      document.getElementById('response').textContent = 
+        JSON.stringify(await response.json(), null, 2);
+    }
+
+    async function sendExecute() {
+      const response = await fetch('/api/execute', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+          'Clients': JSON.stringify(["13184"])
+        },
+        body: 'execute'
+      });
+      document.getElementById('response').textContent = 
+        JSON.stringify(await response.json(), null, 2);
+    }
+  </script>
+</body>
+</html>
